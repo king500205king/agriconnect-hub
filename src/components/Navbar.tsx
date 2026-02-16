@@ -1,13 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Sprout, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { to: "/crops", label: "Crop Library" },
-  { to: "/mandi-rates", label: "Mandi Rates" },
-  { to: "/community", label: "Community" },
-  { to: "/transport", label: "Transport" },
+  { to: "/projects", label: "Projects" },
+  { to: "/services", label: "Services" },
+  { to: "/dashboard", label: "Dashboard" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
 ];
 
 const Navbar = () => {
@@ -15,40 +15,40 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <Sprout className="h-7 w-7 text-primary" />
-          <span className="font-serif text-xl font-bold text-foreground">KisanMitra</span>
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="h-8 w-8 bg-primary flex items-center justify-center">
+            <span className="text-primary-foreground font-mono font-bold text-sm">X</span>
+          </div>
+          <span className="font-mono text-lg font-bold text-foreground tracking-tighter uppercase glitch-hover">
+            NEXUS
+          </span>
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-0">
           {navLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                location.pathname.startsWith(link.to)
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
-              }`}
+              className={`px-4 py-2 font-mono text-xs uppercase tracking-widest transition-all duration-200 border-b-2 ${
+                location.pathname === link.to
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:border-foreground"
+              } glitch-hover`}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2">
-          <Button variant="outline" asChild>
-            <Link to="/auth">Log In</Link>
-          </Button>
-          <Button asChild>
-            <Link to="/auth?tab=signup">Sign Up</Link>
-          </Button>
-        </div>
+        <Link
+          to="/contact"
+          className="hidden md:inline-flex items-center px-6 py-2 bg-primary text-primary-foreground font-mono text-xs uppercase tracking-widest font-bold hover:bg-foreground hover:text-background transition-all duration-200 brutal-shadow"
+        >
+          Let's Talk →
+        </Link>
 
-        {/* Mobile toggle */}
         <button
           className="md:hidden p-2 text-foreground"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -57,31 +57,29 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile nav */}
       {mobileOpen && (
-        <div className="md:hidden border-t bg-background p-4 space-y-2">
+        <div className="md:hidden border-t border-border bg-background p-4 space-y-0">
           {navLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}
               onClick={() => setMobileOpen(false)}
-              className={`block px-4 py-2 rounded-md text-sm font-medium ${
-                location.pathname.startsWith(link.to)
-                  ? "bg-primary/10 text-primary"
+              className={`block px-4 py-3 font-mono text-sm uppercase tracking-widest border-b border-border ${
+                location.pathname === link.to
+                  ? "text-primary"
                   : "text-muted-foreground"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="flex gap-2 pt-2">
-            <Button variant="outline" asChild className="flex-1">
-              <Link to="/auth" onClick={() => setMobileOpen(false)}>Log In</Link>
-            </Button>
-            <Button asChild className="flex-1">
-              <Link to="/auth?tab=signup" onClick={() => setMobileOpen(false)}>Sign Up</Link>
-            </Button>
-          </div>
+          <Link
+            to="/contact"
+            onClick={() => setMobileOpen(false)}
+            className="block mt-4 px-4 py-3 bg-primary text-primary-foreground font-mono text-sm uppercase tracking-widest font-bold text-center"
+          >
+            Let's Talk →
+          </Link>
         </div>
       )}
     </header>
